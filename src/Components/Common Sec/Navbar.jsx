@@ -6,6 +6,10 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";
 
+import DarkLogo from "../../image/Dark_logopreview.png";
+import LightLogo from "../../image/Light logo.png"
+import Image from "next/image";
+
 const navLinks = [
 "Platform",
 "Solution",
@@ -43,18 +47,18 @@ className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           : "bg-white/10 dark:bg-black/10 backdrop-blur-xl"
       }`}
 > <div className="max-w-7xl mx-auto px-5 lg:px-8 h-20 flex items-center justify-between">
-{/* Logo */} <Link
-       href="/"
-       className="flex items-center gap-2"
-     > <div className="w-9 h-9 rounded-lg bg-green-500 flex items-center justify-center text-white font-bold">
-J </div>
+{/* Logo */} {/* Logo */}
+        <Link href="/">
+
+          <Image
+            src={LightLogo}
+            alt="logo"
+            width={250}
+            height={100}
+          />
 
 
-      <span className="text-xl font-bold text-slate-900 dark:text-white">
-        Job<span className="text-green-500">Fine</span>
-      </span>
-    </Link>
-
+        </Link>
    {/* Desktop Menu */}
 <nav className="hidden lg:flex items-center gap-10">
   {navLinks.map((item) => (

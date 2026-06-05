@@ -140,9 +140,27 @@ export default function HeroSection() {
           {/* 1. FLOATING: JOB ALERT SUBSCRIBE */}
           <motion.div
             initial={{ opacity: 0, x: -30, y: -20 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="absolute -left-3 sm:left-4 top-20 bg-white/95 backdrop-blur-md px-4 py-3 rounded-2xl shadow-xl z-20 flex items-center gap-3 border border-gray-100/50"
+  animate={{
+    opacity: 1,
+    x: 0,
+    y: [0, -6, 0],        // floating up-down
+    rotate: [0, 2, 0],    // halka rotate
+  }}
+  transition={{
+    opacity: { duration: 0.8, delay: 0.5 },
+    x: { duration: 0.8, delay: 0.5 },
+    y: {
+      duration: 3,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+    rotate: {
+      duration: 6,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  }}
+  className="absolute -left-3 sm:left-4 top-20 bg-white/95 backdrop-blur-md px-4 py-3 rounded-2xl shadow-xl z-20 flex items-center gap-3 border border-gray-100/50"
           >
             <div className="bg-[#FFF9E6] p-2.5 rounded-xl text-[#FFB800]">
               <FiBell className="text-xl fill-current" />

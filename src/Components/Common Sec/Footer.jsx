@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+import DarkLogo from "../../image/Dark_logopreview.png";
+import LightLogo from "../../image/Light logo.png"
+import Image from "next/image";
 import {
   FiBriefcase,
   FiLinkedin,
@@ -76,21 +79,17 @@ export default function Footer() {
             {/* Brand */}
 
             <div className="lg:col-span-2">
-              <Link
-                href="/"
-                className="flex items-center gap-3 mb-5"
-              >
-                <div className="w-10 h-10 bg-[#00B96D] rounded-xl flex items-center justify-center text-white">
-                  <FiBriefcase size={18} />
-                </div>
+               <Link href="/">
 
-                <span className="text-2xl font-bold text-foreground">
-                  Job
-                  <span className="text-[#00B96D]">
-                    Fine
-                  </span>
-                </span>
-              </Link>
+          <Image
+            src={LightLogo}
+            alt="logo"
+            width={250}
+            height={100}
+          />
+
+
+        </Link>
 
               <p className="text-default-500 text-sm leading-7 max-w-sm">
                 Empowering professionals to discover meaningful
