@@ -1,4 +1,5 @@
-import HeroBanner from "@/Components/Home/HeroBanner";
+
+import Footer from "@/Components/Common Sec/Footer";
 import HeroSection from "@/Components/Home/HeroSection";
 import Image from "next/image";
 
@@ -6,7 +7,9 @@ export default function Home() {
   return (
  <>
  <HeroSection></HeroSection>
- {/* <HeroBanner></HeroBanner> */}
+
+ <Footer></Footer>
+
  </>
   );
 }
