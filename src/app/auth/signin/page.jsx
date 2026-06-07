@@ -189,7 +189,7 @@ export default function SignInPage() {
 
         {/* FOOTER LINK */}
         <p className="text-center text-sm text-gray-500 mt-8">
-          Don't have an account yet?{" "}
+          Dont have an account yet?{" "}
           <a href="/auth/signup" className="text-[#00B96D] font-semibold hover:underline">
             Sign Up
           </a>
