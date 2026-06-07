@@ -1,5 +1,4 @@
 
-import Footer from "@/Components/Common Sec/Footer";
 import HeroSection from "@/Components/Home/HeroSection";
 import Image from "next/image";
 
@@ -8,7 +7,7 @@ export default function Home() {
  <>
  <HeroSection></HeroSection>
 
- <Footer></Footer>
+ 
 
  </>
   );
