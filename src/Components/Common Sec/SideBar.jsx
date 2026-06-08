@@ -52,6 +52,7 @@ export default function SideBar() {
 
       {/* Desktop Sidebar */}
       <aside
+      suppressHydrationWarning
         className="
         hidden lg:flex
         w-72

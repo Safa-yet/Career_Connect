@@ -20,6 +20,7 @@ const navLinks = [
   "Solution",
   "Resources",
   "Company",
+  "Dashboard"
 ];
 
 export default function Navbar() {
@@ -97,7 +98,7 @@ export default function Navbar() {
           {navLinks.map((item) => (
             <Link
               key={item}
-              href="#"
+              href={`/${item.toLocaleLowerCase()}`}
               className={`relative text-sm font-semibold transition-all duration-300 group
                 ${
                   scrolled
@@ -243,7 +244,7 @@ export default function Navbar() {
               {navLinks.map((item) => (
                 <Link
                   key={item}
-                  href="#"
+                  href={`/${item.toLocaleLowerCase()}`}
                   onClick={() => setMobileOpen(false)}
                   className="text-slate-700 dark:text-slate-300 hover:text-green-500 font-medium"
                 >
