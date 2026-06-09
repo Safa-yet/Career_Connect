@@ -4,7 +4,7 @@ import React from 'react';
 
 const DashboardLayout = ({children}) => {
     return (
-        <div className='py-22 min-h-screen max-w-7xl mx-auto lg:flex justify-between gap-10'>
+        <div className='py-22 min-h-screen max-w-7xl mx-auto lg:flex gap-10'>
             <SideBar></SideBar>
            
             {children}
