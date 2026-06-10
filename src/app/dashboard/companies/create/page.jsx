@@ -5,7 +5,7 @@ import { Form, Button, Input, Label, TextField, FieldError, TextArea, Select, Li
 import { FiUploadCloud, FiX } from "react-icons/fi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { CreateComapny } from "@/lib/Data Fetch Functions/Server";
+import { CreateComapny } from "@/lib/Actions/Server";
 
 
 export default function RegisterCompanyForm() {
