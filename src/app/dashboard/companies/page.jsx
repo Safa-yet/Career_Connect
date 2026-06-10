@@ -14,7 +14,6 @@ export default function CompanyDashboardPage() {
   const [company, setCompany] = useState({});
 
   useEffect(() => {
-    // সরাসরি API থেকে ডেটা নিয়ে ফার্স্ট অবজেক্টটি সেটে বসিয়ে দেওয়া হচ্ছে
     fetch("http://localhost:5000/company")
       .then((res) => res.json())
       .then((data) => {
