@@ -20,7 +20,7 @@ export default function CompanyDashboardPage() {
         if (data && data.length > 0) {
           setCompany(data[0]); // অ্যারের প্রথম কোম্পানিটি সরাসরি দেখাবে
         } else if (data && !Array.isArray(data)) {
-          setCompany(data); // যদি এপিআই সরাসরি অবজেক্ট রিটার্ন করে
+          setCompany(data); 
         }
       });
   }, []);
