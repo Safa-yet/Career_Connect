@@ -39,7 +39,7 @@ export default function MobileSidebar() {
                 </Link>
 
                 <Link
-                  href="/dashboard/jobs"
+                  href="/dashboard/api/jobs"
                   className="px-4 py-3 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900"
                 >
                   Jobs

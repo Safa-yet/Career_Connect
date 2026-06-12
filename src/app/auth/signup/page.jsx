@@ -54,14 +54,15 @@ export default function SignUpPage() {
     if (!validateForm()) return;
 
     setIsLoading(true);
-
+const plan = role === "seeker" ? "seeker_free" : "recruiter_free"; 
     try {
       const { data, error } = await authClient.signUp.email({
         email,
         password,
         name,
         image: undefined,
-        role
+        role,
+        plan
       });
 
       if (error) {
@@ -124,27 +125,27 @@ export default function SignUpPage() {
         <div className="grid grid-cols-2 gap-4 mb-8">
           <button
             type="button"
-            onClick={() => setRole("candidate")}
+            onClick={() => setRole("seeker")}
             className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 font-medium transition-all ${
-              role === "candidate"
+              role === "seeker"
                 ? "border-[#00B96D] bg-[#00B96D]/5 text-[#00B96D]"
                 : "border-gray-200 text-gray-500 hover:border-gray-300"
             }`}
           >
             <FiUser className="text-lg" />
-            Candidate
+            Seeker
           </button>
           <button
             type="button"
-            onClick={() => setRole("employer")}
+            onClick={() => setRole("recruiter")}
             className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 font-medium transition-all ${
-              role === "employer"
+              role === "recruiter"
                 ? "border-[#043330] bg-[#043330]/5 text-[#043330]"
                 : "border-gray-200 text-gray-500 hover:border-gray-300"
             }`}
           >
             <FiBriefcase className="text-lg" />
-            Employer
+            Recruiter
           </button>
         </div>
 
@@ -210,11 +211,11 @@ export default function SignUpPage() {
             size="lg"
             isLoading={isLoading}
             className={`w-full text-white font-medium rounded-xl shadow-lg mt-4 transition-transform active:scale-[0.98] ${
-              role === "candidate" ? "bg-[#00B96D] hover:bg-[#009b5a]" : "bg-[#043330] hover:opacity-95"
+              role === "seeker" ? "bg-[#00B96D] hover:bg-[#009b5a]" : "bg-[#043330] hover:opacity-95"
             }`}
             endContent={!isLoading && <FiArrowRight />}
           >
-            Sign Up as {role === "candidate" ? "Candidate" : "Employer"}
+            Sign Up as {role === "seeker" ? "Seeker" : "Recruiter"}
           </Button>
         </form>
 
