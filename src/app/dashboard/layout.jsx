@@ -6,8 +6,10 @@ const DashboardLayout = ({children}) => {
     return (
         <div className='py-22 min-h-screen max-w-7xl mx-auto lg:flex gap-10'>
             <SideBar></SideBar>
-           
+           <div className='flex-1'>
+
             {children}
+           </div>
             
         </div>
     );
