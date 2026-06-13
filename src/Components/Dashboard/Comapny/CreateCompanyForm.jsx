@@ -20,12 +20,14 @@ import { AiFillBuild } from "react-icons/ai";
 import { FiGlobe, FiUpload } from "react-icons/fi";
 import Image from "next/image";
 import { createCompany } from "@/lib/Actions/Company";
+import { useRouter } from "next/navigation";
 
-export default function CreateCompanyForm({user}) {
+export default function CreateCompanyForm({user,CompanyOwnerId}) {
   const [logoFile, setLogoFile] = useState(null);
   const [preview, setPreview] = useState("");
   const [employeeCount, setEmployeeCount] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter()
 
   const handleLogoChange = (e) => {
     const file = e.target.files?.[0];
@@ -90,6 +92,7 @@ const handleSubmit = async (e) => {
      createCompany(companyData);
 
     toast("Company Data Ready");
+    router.push("/dashboard/recruiter")
   } catch (error) {
     console.error(error);
     alert("Something went wrong");

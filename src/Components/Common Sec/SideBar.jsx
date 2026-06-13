@@ -25,7 +25,7 @@ const menuItems = [
   { name: "Dashboard", icon: FiGrid, path: "/dashboard" },
   { name: "Jobs", icon: FiBriefcase, path: "/dashboard/jobs" },
   { name: "Applications", icon: FiFileText, path: "/dashboard/applications" },
-  { name: "Companies", icon: FiLayers, path: "/dashboard/companies" },
+  { name: "Companies", icon: FiLayers, path: "/dashboard/recruiter" },
   { name: "Users", icon: FiUsers, path: "/dashboard/users" },
   { name: "Categories", icon: FiFolder, path: "/dashboard/categories" },
   { name: "Reports", icon: FiBarChart2, path: "/dashboard/reports" },

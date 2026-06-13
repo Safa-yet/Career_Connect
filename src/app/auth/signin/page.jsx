@@ -59,14 +59,14 @@ export default function SignInPage() {
       });
 
       if (error) {
-        toast(error.message || "Sign In Failed", {
+        alert(error.message || "Sign In Failed", {
           description: "Incorrect email or password. Please try again.",
           variant: "flat",
           color: "danger",
           indicator: <FiAlertCircle />,
         });
       } else {
-        toast("Welcome Back!", {
+        alert("Welcome Back!", {
           description: "You have successfully logged into your account.",
           variant: "flat",
           color: "success",
@@ -77,7 +77,7 @@ export default function SignInPage() {
         router.refresh();
       }
     } catch (err) {
-      toast("Unexpected Error", {
+      alert("Unexpected Error", {
         description: "Something went wrong. Please try again later.",
         variant: "flat",
         color: "danger",

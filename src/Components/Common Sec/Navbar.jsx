@@ -33,6 +33,7 @@ export default function Navbar() {
   // Better-Auth সেশন হুক
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
+  console.log("user Check" ,user);
 
   useEffect(() => {
     const handleScroll = () => {
