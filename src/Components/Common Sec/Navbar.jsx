@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 
 const navLinks = [
   "Platform",
-  "Solution",
+  "Jobs",
   "Resources",
   "Company",
   "Dashboard"

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button, toast } from "@heroui/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams, } from "next/navigation";
 import { 
   FiMail, 
   FiLock, 
@@ -19,6 +19,8 @@ import SocialAuth from "@/Components/Common Sec/SocialAuth";
 
 export default function SignInPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/';
 
   // স্টেট ম্যানেজমেন্ট
   const [email, setEmail] = useState("");
@@ -31,6 +33,7 @@ export default function SignInPage() {
 
   // ফর্ম ভ্যালিডেশন
   const validateForm = () => {
+
     const newErrors = {};
     if (!email) {
       newErrors.email = "Email is required";
@@ -73,7 +76,7 @@ export default function SignInPage() {
           indicator: <FiCheckCircle />,
         });
         
-        router.push("/");
+        router.push(redirectTo);
         router.refresh();
       }
     } catch (err) {
@@ -190,7 +193,7 @@ export default function SignInPage() {
         {/* FOOTER LINK */}
         <p className="text-center text-sm text-gray-500 mt-8">
           Dont have an account yet?{" "}
-          <a href="/auth/signup" className="text-[#00B96D] font-semibold hover:underline">
+          <a href={`/auth/signup?redirect=${redirectTo}`} className="text-[#00B96D] font-semibold hover:underline">
             Sign Up
           </a>
         </p>

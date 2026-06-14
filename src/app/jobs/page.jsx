@@ -1,11 +1,14 @@
-import React from 'react';
-import { GetJobs } from '@/lib/api/jobsDAta/GetJobs';
 import JobCard from '@/Components/Dashboard/JobCard';
+import { getJobs } from '@/lib/Api/CallFuntion';
+import React from 'react';
+// import { GetJobs } from '@/lib/api/jobsDAta/GetJobs';
+// import JobCard from '@/Components/Dashboard/JobCard';
 
 
 const AllJobs = async () => {
     // Fetching jobs data from server side
-    const jobsData = await GetJobs() || [];
+    const jobsData = await getJobs() ;
+
 
     return (
         <main className="min-h-screen bg-zinc-50 dark:bg-[#09090b] py-12 pt-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">

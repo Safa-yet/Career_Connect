@@ -23,7 +23,7 @@ import MobileSidebar from "./MobileSidebar";
 
 const menuItems = [
   { name: "Dashboard", icon: FiGrid, path: "/dashboard" },
-  { name: "Jobs", icon: FiBriefcase, path: "/dashboard/jobs" },
+  { name: "Jobs", icon: FiBriefcase, path: "/dashboard/recruiter/jobs" },
   { name: "Applications", icon: FiFileText, path: "/dashboard/applications" },
   { name: "Companies", icon: FiLayers, path: "/dashboard/recruiter" },
   { name: "Users", icon: FiUsers, path: "/dashboard/users" },

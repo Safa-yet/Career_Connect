@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Input, Button, toast } from "@heroui/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { 
   FiUser, 
   FiMail, 
@@ -19,6 +19,8 @@ import { authClient } from "@/lib/auth-client";
 
 export default function SignUpPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/'
 
   // স্টেট ম্যানেজমেন্ট
   const [role, setRole] = useState("candidate");
@@ -79,7 +81,7 @@ const plan = role === "seeker" ? "seeker_free" : "recruiter_free";
           color: "success",
           indicator: <FiCheckCircle />,
         });
-        router.push("/");
+        router.push(redirectTo);
       }
     } catch (err) {
       toast("Unexpected Error", {
@@ -221,7 +223,7 @@ const plan = role === "seeker" ? "seeker_free" : "recruiter_free";
 
         <p className="text-center text-sm text-gray-500 mt-6">
           Already have an account?{" "}
-          <a href="/auth/signin" className="text-[#00B96D] font-semibold hover:underline">
+          <a href={`/auth/signin?redirect=${redirectTo}`} className="text-[#00B96D] font-semibold hover:underline">
             Log In
           </a>
         </p>

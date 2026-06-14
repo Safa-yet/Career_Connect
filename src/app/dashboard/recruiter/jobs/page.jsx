@@ -62,7 +62,7 @@ export default async function RecruiterJobsPage() {
             applications from talented candidates.
           </p>
 
-          <Link href="/dashboard/recruiter/jobs/create">
+          <Link href="/dashboard/recruiter/jobs/createjob">
             <Button className="bg-[#00B96D] text-white mt-8">
               Create First Job
             </Button>

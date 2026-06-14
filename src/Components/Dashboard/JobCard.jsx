@@ -1,202 +1,225 @@
+
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { Card, Avatar, Chip, Button } from "@heroui/react";
 import {
-  FiBriefcase,
   FiMapPin,
   FiDollarSign,
-  FiCalendar,
-  FiClock,
+  FiUsers,
   FiArrowUpRight,
-  FiBookmark,
-  FiZap,
+  FiBriefcase,
 } from "react-icons/fi";
 
-const typeStyles = {
-  "Full-time": {
-    chip: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-300 dark:ring-emerald-500/20",
-    dot: "bg-emerald-500",
-  },
-  "Part-time": {
-    chip: "bg-amber-50 text-amber-700 ring-1 ring-amber-200 dark:bg-amber-500/10 dark:text-amber-300 dark:ring-amber-500/20",
-    dot: "bg-amber-500",
-  },
-  Remote: {
-    chip: "bg-sky-50 text-sky-700 ring-1 ring-sky-200 dark:bg-sky-500/10 dark:text-sky-300 dark:ring-sky-500/20",
-    dot: "bg-sky-500",
-  },
-  Contract: {
-    chip: "bg-violet-50 text-violet-700 ring-1 ring-violet-200 dark:bg-violet-500/10 dark:text-violet-300 dark:ring-violet-500/20",
-    dot: "bg-violet-500",
-  },
-  Internship: {
-    chip: "bg-pink-50 text-pink-700 ring-1 ring-pink-200 dark:bg-pink-500/10 dark:text-pink-300 dark:ring-pink-500/20",
-    dot: "bg-pink-500",
-  },
+const formatSalary = (salary) => {
+  if (!salary) return "N/A";
+
+  const num = Number(salary);
+
+  if (num >= 1000) {
+    return `${num / 1000}k`;
+  }
+
+  return num;
 };
 
-const formatSalary = (n) => {
-  if (n == null || n === "") return "";
-  const num = Number(n);
-  if (Number.isNaN(num)) return n;
-  if (num >= 1000) return `${(num / 1000).toFixed(num % 1000 === 0 ? 0 : 1)}k`;
-  return num.toString();
-};
-
-const getDaysLeft = (deadline) => {
-  if (!deadline) return null;
-  const d = new Date(deadline);
-  if (Number.isNaN(d.getTime())) return null;
-  const diff = Math.ceil((d.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
-  return diff;
-};
-
-export default function JobCard({ job = {} }) {
+export default function JobCard({ job }) {
   const {
     _id,
-    title = "Untitled role",
-    jobType = "Full-time",
+    companyName,
+    companyLogo,
+    jobTitle,
+    category,
+    type,
     minSalary,
     maxSalary,
-    currency = "USD",
-    city,
-    country,
-    isRemote,
-    deadline,
-    category = "General",
-    company,
-    isFeatured,
-  } = job;
+    location,
+    requirements = [],
+    applicationCount = 0,
+    status,
+  } = job || {};
 
-  const style = typeStyles[jobType] || typeStyles["Full-time"];
-  const daysLeft = getDaysLeft(deadline);
-  const urgent = daysLeft !== null && daysLeft >= 0 && daysLeft <= 3;
+  const skills = Array.isArray(requirements)
+    ? requirements
+    : requirements
+    ? [requirements]
+    : [];
 
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.96 }}
-      whileHover={{ y: -6 }}
-      transition={{ type: "spring", stiffness: 260, damping: 22 }}
-      className="group relative overflow-hidden rounded-3xl border border-slate-200/70 bg-white p-6 font-sans shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-shadow duration-300 hover:shadow-[0_20px_50px_-20px_rgba(16,185,129,0.35)] dark:border-zinc-800/80 dark:bg-zinc-950"
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.25 }}
+      className="h-full"
     >
-      {/* Decorative gradient blob */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-gradient-to-br from-emerald-400/30 via-teal-300/20 to-transparent opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
-      />
+      <Card
+        className="
+          h-full
+          overflow-hidden
+          rounded-[30px]
+          border
+          border-default-200
+          bg-background
+          shadow-[0_10px_40px_rgba(0,0,0,0.06)]
+          transition-all
+          duration-500
+          hover:-translate-y-1
+          hover:border-success
+          hover:shadow-[0_20px_60px_rgba(0,185,109,0.15)]
+        "
+      >
+        {/* Top Gradient */}
+        <div className="h-2 w-full bg-gradient-to-r from-[#00B96D] via-emerald-400 to-[#043330]" />
 
-      {/* Top row: company + bookmark */}
-      <div className="relative flex items-start justify-between">
-        <div className="flex items-center gap-3">
-          <div className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/20">
-            <FiBriefcase size={20} />
-            {isFeatured && (
-              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-400 text-[10px] text-white ring-2 ring-white dark:ring-zinc-950">
-                <FiZap size={10} />
-              </span>
-            )}
+        {/* HEADER */}
+        <Card.Header className="p-6">
+          <div className="flex w-full items-start justify-between">
+            <div className="flex items-center gap-4">
+              <Avatar
+                src={companyLogo}
+                name={companyName || "Company"}
+                className="h-16 w-16 ring-4 ring-success/10"
+              />
+
+              <div>
+                <h3 className="font-bold text-lg text-foreground">
+                  {companyName || "Unknown Company"}
+                </h3>
+
+                <p className="text-sm text-default-500">
+                  {category || "General"}
+                </p>
+              </div>
+            </div>
+
+            <Chip
+              size="sm"
+              variant="flat"
+              color={status === "active" ? "success" : "default"}
+            >
+              {status || "N/A"}
+            </Chip>
           </div>
-          <div className="min-w-0">
-            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">
-              {category}
-            </p>
-            <p className="truncate text-sm font-semibold text-slate-700 dark:text-zinc-300">
-              {company || "Lovable Inc."}
-            </p>
+        </Card.Header>
+
+        {/* CONTENT */}
+        <Card.Content className="px-6 pb-6">
+          {/* Job Title */}
+          <h2 className="text-2xl font-extrabold leading-tight text-foreground">
+            {jobTitle || "Untitled Job"}
+          </h2>
+
+          {/* Chips */}
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Chip
+              variant="flat"
+              className="bg-success/10 text-success"
+            >
+              <div className="flex items-center gap-1">
+                <FiBriefcase />
+                {type || "N/A"}
+              </div>
+            </Chip>
+
+            <Chip
+              variant="flat"
+              className="bg-secondary/10"
+            >
+              <div className="flex items-center gap-1">
+                <FiUsers />
+                {applicationCount} Applicants
+              </div>
+            </Chip>
           </div>
-        </div>
 
-        <button
-          aria-label="Save job"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-400 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-600 dark:border-zinc-800 dark:hover:border-emerald-500/30 dark:hover:bg-emerald-500/10"
-        >
-          <FiBookmark size={16} />
-        </button>
-      </div>
+          {/* Info Grid */}
+          <div className="mt-6 grid grid-cols-2 gap-3">
+            <div className="rounded-2xl border border-default-100 bg-default-50 p-4">
+              <FiMapPin className="text-success text-lg" />
 
-      {/* Title */}
-      <h3 className="relative mt-5 text-xl font-extrabold leading-snug tracking-tight text-slate-900 line-clamp-2 dark:text-white">
-        {title}
-      </h3>
+              <p className="mt-2 text-xs text-default-500">
+                Location
+              </p>
 
-      {/* Chips */}
-      <div className="relative mt-3 flex flex-wrap items-center gap-2">
-        <span
-          className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${style.chip}`}
-        >
-          <span className={`h-1.5 w-1.5 rounded-full ${style.dot}`} />
-          {jobType}
-        </span>
-        {isRemote && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-slate-600 dark:bg-zinc-900 dark:text-zinc-300">
-            Remote OK
-          </span>
-        )}
-        {urgent && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-rose-600 ring-1 ring-rose-200 dark:bg-rose-500/10 dark:text-rose-300 dark:ring-rose-500/20">
-            <FiClock size={10} /> Closing soon
-          </span>
-        )}
-      </div>
+              <h4 className="font-semibold text-foreground">
+                {location || "Not Specified"}
+              </h4>
+            </div>
 
-      {/* Info grid */}
-      <div className="relative mt-5 grid grid-cols-2 gap-3">
-        <div className="flex items-center gap-2 rounded-2xl bg-slate-50 px-3 py-2.5 dark:bg-zinc-900/60">
-          <FiMapPin className="flex-shrink-0 text-emerald-500" />
-          <div className="min-w-0">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-              Location
-            </p>
-            <p className="truncate text-xs font-bold text-slate-700 dark:text-zinc-200">
-              {isRemote ? "Anywhere" : [city, country].filter(Boolean).join(", ") || "—"}
-            </p>
+            <div className="rounded-2xl border border-default-100 bg-default-50 p-4">
+              <FiDollarSign className="text-success text-lg" />
+
+              <p className="mt-2 text-xs text-default-500">
+                Salary
+              </p>
+
+              <h4 className="font-semibold text-foreground">
+                ${formatSalary(minSalary)} - $
+                {formatSalary(maxSalary)}
+              </h4>
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-2 rounded-2xl bg-slate-50 px-3 py-2.5 dark:bg-zinc-900/60">
-          <FiDollarSign className="flex-shrink-0 text-emerald-500" />
-          <div className="min-w-0">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-              Salary
-            </p>
-            <p className="truncate text-xs font-bold text-slate-700 dark:text-zinc-200">
-              {minSalary || maxSalary
-                ? `${formatSalary(minSalary)}${maxSalary ? `–${formatSalary(maxSalary)}` : ""} ${currency}`
-                : "Negotiable"}
-            </p>
+          {/* Skills */}
+          <div className="mt-6">
+            <h4 className="mb-3 font-semibold text-foreground">
+              Skills Required
+            </h4>
+
+            <div className="flex flex-wrap gap-2">
+              {skills.length > 0 ? (
+                skills.map((skill, idx) => (
+                  <span
+                    key={idx}
+                    className="
+                      rounded-full
+                      bg-success/10
+                      px-3
+                      py-1
+                      text-sm
+                      font-medium
+                      text-success
+                    "
+                  >
+                    {skill}
+                  </span>
+                ))
+              ) : (
+                <span className="text-default-400">
+                  No skills listed
+                </span>
+              )}
+            </div>
           </div>
-        </div>
-      </div>
+        </Card.Content>
 
-      {/* Footer */}
-      <div className="relative mt-5 flex items-center justify-between border-t border-dashed border-slate-200 pt-4 dark:border-zinc-800">
-        <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 dark:text-zinc-400">
-          <FiCalendar className="text-slate-400" />
-          <span>
-            {deadline ? `Deadline: ${deadline}` : "Open until filled"}
-            {daysLeft !== null && daysLeft >= 0 && (
-              <span className={`ml-1.5 ${urgent ? "text-rose-500" : "text-emerald-600"}`}>
-                · {daysLeft}d left
-              </span>
-            )}
-          </span>
-        </div>
+        {/* FOOTER */}
+        <Card.Footer className="border-t border-default-200 px-6 py-5">
+          <div className="flex w-full items-center justify-between">
+            <div>
+              <p className="text-sm text-default-500">
+                {applicationCount} Applications
+              </p>
+            </div>
 
-<Link href={`/alljobs/${_id}`}>
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-4 py-2 text-xs font-bold text-white shadow-sm transition-all duration-300 hover:gap-2.5 hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 dark:bg-white dark:text-zinc-900 dark:hover:bg-emerald-400 dark:hover:text-white"
-        >
-          Manage
-          <FiArrowUpRight size={14} />
-        </motion.button>
-
-</Link>
-      </div>
+            <Link href={`/jobs/${_id}`}>
+              <Button
+                radius="full"
+                className="
+                  bg-[#043330]
+                  text-white
+                  hover:bg-[#00B96D]
+                  transition-all
+                "
+                endContent={<FiArrowUpRight />}
+              >
+                View Details
+              </Button>
+            </Link>
+          </div>
+        </Card.Footer>
+      </Card>
     </motion.div>
   );
 }
+
