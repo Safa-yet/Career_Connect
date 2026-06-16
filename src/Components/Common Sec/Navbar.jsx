@@ -16,12 +16,23 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 const navLinks = [
-  "Platform",
-  "Jobs",
-  "Resources",
-  "Company",
-  "Dashboard"
+  {
+    label: "Platform",
+    href: "/platform"
+  },
+  {
+    label: "Resources",
+    href: "/resources"
+  },
+  {
+    label: "Jobs",
+    href: "/jobs"
+  }
+
+  
 ];
+
+
 
 export default function Navbar() {
   const router = useRouter();
@@ -98,8 +109,8 @@ export default function Navbar() {
         <nav className="hidden lg:flex items-center gap-10">
           {navLinks.map((item) => (
             <Link
-              key={item}
-              href={`/${item.toLocaleLowerCase()}`}
+              key={item.label}
+              href={item.href}
               className={`relative text-sm font-semibold transition-all duration-300 group
                 ${
                   scrolled
@@ -110,7 +121,7 @@ export default function Navbar() {
                 hover:from-green-400 hover:via-emerald-500 hover:to-lime-400
               `}
             >
-              {item}
+              {item.label}
               <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-gradient-to-r from-green-400 to-emerald-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
           ))}
@@ -244,12 +255,12 @@ export default function Navbar() {
 
               {navLinks.map((item) => (
                 <Link
-                  key={item}
-                  href={`/${item.toLocaleLowerCase()}`}
+                  key={item.label}
+                  href={item.href}
                   onClick={() => setMobileOpen(false)}
                   className="text-slate-700 dark:text-slate-300 hover:text-green-500 font-medium"
                 >
-                  {item}
+                  {item.label}
                 </Link>
               ))}
 

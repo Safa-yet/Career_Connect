@@ -18,7 +18,7 @@ export default function SocialAuth() {
     try {
       await authClient.signIn.social({
         provider: provider,
-        callbackURL: "/", // লগইন সফল হওয়ার পর যেখানে রিডাইরেক্ট হবে
+        callbackURL: "/", 
       });
     } catch (err) {
       console.error(err);
