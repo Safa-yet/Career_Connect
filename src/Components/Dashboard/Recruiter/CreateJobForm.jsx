@@ -2,227 +2,359 @@
 
 import { useState } from "react";
 import {
-  Form,
-  Fieldset,
-  FieldGroup,
-  TextField,
-  Input,
-  TextArea,
-  Label,
-  Description,
-  Button,
-  Select,
-  ListBox,
+Form,
+Fieldset,
+FieldGroup,
+TextField,
+Input,
+TextArea,
+Label,
+Description,
+Button,
+Select,
+ListBox,
 } from "@heroui/react";
 
-import {
-  FiBriefcase,
-  FiMapPin,
-  FiDollarSign,
-} from "react-icons/fi";
+// import {
+// FiBriefcase,
+// FiMapPin,
+// FiDollarSign,
+// FiBuilding,
+// FiGlobe,
+// } from "react-icons/fi";
+
 import { createJob } from "@/lib/Actions/CreateJob";
+import { FiBriefcase, FiDollarSign, FiGlobe, FiMapPin } from "react-icons/fi";
+import { BsFillBuildingFill } from "react-icons/bs";
 
-export default function CreateJobForm({ company, user }) {
-  const [jobType, setJobType] = useState("");
-  const [category, setCategory] = useState("");
-  const [loading, setLoading] = useState(false);
+export default function CreateJobForm({
+company,
+user,
+}) {
+const [jobType, setJobType] = useState("");
+const [category, setCategory] = useState("");
+const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+e.preventDefault();
 
-    setLoading(true);
 
-    const formData = new FormData(e.currentTarget);
+try {
+  setLoading(true);
 
-    const jobData = {
-      companyId: company._id,
-      companyName: company.companyTitle,
-      companyLogo: company.companyLogo,
+  const formData = new FormData(
+    e.currentTarget
+  );
 
-      recruiterId: user.id,
+  const jobData = {
+    companyId: company._id,
+    companyName: company.companyTitle,
+    companyLogo: company.companyLogo,
 
-      jobTitle: formData.get("jobTitle"),
+    recruiterId: user.id,
 
-      category,
-      type: jobType,
+    jobTitle: formData.get("jobTitle"),
 
-      minSalary: Number(formData.get("minSalary")),
-      maxSalary: Number(formData.get("maxSalary")),
+    category,
+    type: jobType,
 
-      location: formData.get("location"),
+    minSalary: Number(
+      formData.get("minSalary")
+    ),
 
-      requirements: formData
-        .get("requirements")
-        .split(",")
-        .map((item) => item.trim()),
+    maxSalary: Number(
+      formData.get("maxSalary")
+    ),
 
-      applicationCount: 0,
+    location: formData.get("location"),
 
-      status: "active",
-    };
+    requirements: formData
+      .get("requirements")
+      ?.split(",")
+      .map((item) => item.trim())
+      .filter(Boolean),
 
-    console.log(jobData);
+    applicationCount: 0,
 
-    await createJob(jobData);
-
-    setLoading(false);
+    status: "active",
   };
 
-  return (
-    <section className="bg-[#F4F6F8] min-h-screen py-10">
-      <div className="max-w-5xl mx-auto px-5">
-        <Form onSubmit={handleSubmit}>
-          <Fieldset className="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm">
+  console.log(jobData);
 
-            <Fieldset.Legend className="text-3xl font-bold text-[#091E21]">
-              Create New Job
-            </Fieldset.Legend>
+  await createJob(jobData);
+} catch (error) {
+  console.log(error);
+} finally {
+  setLoading(false);
+}
 
-            <Description>
-              Post a new job for candidates.
-            </Description>
 
-            <FieldGroup>
+};
 
-              <TextField isRequired name="jobTitle">
-                <Label>Job Title</Label>
-                <Input
-                  placeholder="Frontend Developer"
-                  startContent={<FiBriefcase />}
-                />
-              </TextField>
+return ( <section className="bg-[#F4F6F8] min-h-screen py-10"> <div className="max-w-5xl mx-auto px-5">
 
-              <Select
-                selectedKey={category}
-                onSelectionChange={(key) =>
-                  setCategory(String(key))
-                }
-              >
-                <Label>Category</Label>
 
-                <Select.Trigger>
-                  <Select.Value placeholder="Select category" />
-                  <Select.Indicator />
-                </Select.Trigger>
+    {/* COMPANY CARD */}
 
-                <Select.Popover>
-                  <ListBox>
-                    <ListBox.Item id="Web Development">
-                      <Label>Web Development</Label>
-                    </ListBox.Item>
+    <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 mb-8">
+      <div className="flex flex-col md:flex-row md:items-center gap-5">
 
-                    <ListBox.Item id="UI UX Design">
-                      <Label>UI/UX Design</Label>
-                    </ListBox.Item>
+        <img
+          src={company?.companyLogo}
+          alt={company?.companyTitle}
+          className="w-24 h-24 rounded-3xl object-cover border"
+        />
 
-                    <ListBox.Item id="Mobile Development">
-                      <Label>Mobile Development</Label>
-                    </ListBox.Item>
+        <div className="flex-1">
 
-                    <ListBox.Item id="Marketing">
-                      <Label>Marketing</Label>
-                    </ListBox.Item>
-                  </ListBox>
-                </Select.Popover>
-              </Select>
+          <h2 className="text-3xl font-bold text-[#091E21]">
+            {company?.companyTitle}
+          </h2>
 
-              <Select
-                selectedKey={jobType}
-                onSelectionChange={(key) =>
-                  setJobType(String(key))
-                }
-              >
-                <Label>Job Type</Label>
+          <p className="text-gray-500 mt-1">
+            {company?.industry}
+          </p>
 
-                <Select.Trigger>
-                  <Select.Value placeholder="Select type" />
-                  <Select.Indicator />
-                </Select.Trigger>
+          <div className="flex flex-wrap gap-3 mt-4">
 
-                <Select.Popover>
-                  <ListBox>
-                    <ListBox.Item id="Remote">
-                      <Label>Remote</Label>
-                    </ListBox.Item>
+            <span className="bg-gray-100 px-3 py-2 rounded-full text-sm">
+              <FiMapPin className="inline mr-1" />
+              {company?.location}
+            </span>
 
-                    <ListBox.Item id="Hybrid">
-                      <Label>Hybrid</Label>
-                    </ListBox.Item>
+            <span className="bg-gray-100 px-3 py-2 rounded-full text-sm">
+              <BsFillBuildingFill className="inline mr-1" />
+              {company?.employeeCount}
+            </span>
 
-                    <ListBox.Item id="On Site">
-                      <Label>On Site</Label>
-                    </ListBox.Item>
+            <span className="bg-gray-100 px-3 py-2 rounded-full text-sm">
+              <FiGlobe className="inline mr-1" />
+              {company?.website}
+            </span>
 
-                    <ListBox.Item id="Part Time">
-                      <Label>Part Time</Label>
-                    </ListBox.Item>
-                  </ListBox>
-                </Select.Popover>
-              </Select>
+          </div>
+        </div>
 
-              <TextField isRequired name="minSalary">
-                <Label>Minimum Salary</Label>
-
-                <Input
-                  type="number"
-                  placeholder="30000"
-                  startContent={<FiDollarSign />}
-                />
-              </TextField>
-
-              <TextField isRequired name="maxSalary">
-                <Label>Maximum Salary</Label>
-
-                <Input
-                  type="number"
-                  placeholder="60000"
-                  startContent={<FiDollarSign />}
-                />
-              </TextField>
-
-              <TextField isRequired name="location">
-                <Label>Location</Label>
-
-                <Input
-                  placeholder="Dhaka, Bangladesh"
-                  startContent={<FiMapPin />}
-                />
-              </TextField>
-
-              <TextField name="requirements">
-                <Label>Requirements</Label>
-
-                <TextArea
-                  placeholder="React, Next.js, Tailwind CSS"
-                />
-
-                <Description>
-                  Separate skills with commas.
-                </Description>
-              </TextField>
-
-            </FieldGroup>
-
-            <Fieldset.Actions>
-              <Button
-                type="submit"
-                className="bg-[#00B96D] text-white"
-                disabled={loading}
-              >
-                {loading ? "Publishing..." : "Publish Job"}
-              </Button>
-
-              <Button
-                type="reset"
-                variant="secondary"
-              >
-                Reset
-              </Button>
-            </Fieldset.Actions>
-
-          </Fieldset>
-        </Form>
+        <div>
+          <span
+            className={`px-4 py-2 rounded-full font-semibold ${
+              company?.status === "active"
+                ? "bg-green-100 text-green-700"
+                : "bg-yellow-100 text-yellow-700"
+            }`}
+          >
+            {company?.status}
+          </span>
+        </div>
       </div>
-    </section>
-  );
+    </div>
+
+    {/* PENDING MESSAGE */}
+
+    {company?.status !== "active" ? (
+      <div className="bg-white rounded-3xl border border-yellow-200 p-10 text-center shadow-sm">
+
+        <div className="text-6xl">
+          ⏳
+        </div>
+
+        <h2 className="text-3xl font-bold text-[#091E21] mt-4">
+          Company Approval Required
+        </h2>
+
+        <p className="text-gray-500 mt-4 max-w-xl mx-auto">
+          Before posting a job, please make sure
+          your company is approved by our admin
+          team.
+        </p>
+
+        <div className="mt-6 inline-flex px-4 py-2 rounded-full bg-yellow-100 text-yellow-700 font-medium">
+          Current Status :
+          {" "}
+          {company?.status}
+        </div>
+      </div>
+    ) : (
+      <Form onSubmit={handleSubmit}>
+        <Fieldset className="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm">
+
+          <Fieldset.Legend className="text-3xl font-bold text-[#091E21]">
+            Create New Job
+          </Fieldset.Legend>
+
+          <Description>
+            Post a new job for candidates.
+          </Description>
+
+          <FieldGroup>
+
+            <TextField isRequired name="jobTitle">
+              <Label>Job Title</Label>
+
+              <Input
+                placeholder="Frontend Developer"
+                startContent={
+                  <FiBriefcase />
+                }
+              />
+            </TextField>
+
+            <Select
+              selectedKey={category}
+              onSelectionChange={(key) =>
+                setCategory(String(key))
+              }
+            >
+              <Label>Category</Label>
+
+              <Select.Trigger>
+                <Select.Value placeholder="Select category" />
+                <Select.Indicator />
+              </Select.Trigger>
+
+              <Select.Popover>
+                <ListBox>
+
+                  <ListBox.Item id="Web Development">
+                    <Label>
+                      Web Development
+                    </Label>
+                  </ListBox.Item>
+
+                  <ListBox.Item id="UI UX Design">
+                    <Label>
+                      UI/UX Design
+                    </Label>
+                  </ListBox.Item>
+
+                  <ListBox.Item id="Mobile Development">
+                    <Label>
+                      Mobile Development
+                    </Label>
+                  </ListBox.Item>
+
+                  <ListBox.Item id="Marketing">
+                    <Label>
+                      Marketing
+                    </Label>
+                  </ListBox.Item>
+
+                </ListBox>
+              </Select.Popover>
+            </Select>
+
+            <Select
+              selectedKey={jobType}
+              onSelectionChange={(key) =>
+                setJobType(String(key))
+              }
+            >
+              <Label>Job Type</Label>
+
+              <Select.Trigger>
+                <Select.Value placeholder="Select type" />
+                <Select.Indicator />
+              </Select.Trigger>
+
+              <Select.Popover>
+                <ListBox>
+
+                  <ListBox.Item id="Remote">
+                    <Label>Remote</Label>
+                  </ListBox.Item>
+
+                  <ListBox.Item id="Hybrid">
+                    <Label>Hybrid</Label>
+                  </ListBox.Item>
+
+                  <ListBox.Item id="On Site">
+                    <Label>On Site</Label>
+                  </ListBox.Item>
+
+                  <ListBox.Item id="Part Time">
+                    <Label>Part Time</Label>
+                  </ListBox.Item>
+
+                </ListBox>
+              </Select.Popover>
+            </Select>
+
+            <TextField isRequired name="minSalary">
+              <Label>Minimum Salary</Label>
+
+              <Input
+                type="number"
+                placeholder="30000"
+                startContent={
+                  <FiDollarSign />
+                }
+              />
+            </TextField>
+
+            <TextField isRequired name="maxSalary">
+              <Label>Maximum Salary</Label>
+
+              <Input
+                type="number"
+                placeholder="60000"
+                startContent={
+                  <FiDollarSign />
+                }
+              />
+            </TextField>
+
+            <TextField isRequired name="location">
+              <Label>Location</Label>
+
+              <Input
+                placeholder="Dhaka, Bangladesh"
+                startContent={
+                  <FiMapPin />
+                }
+              />
+            </TextField>
+
+            <TextField name="requirements">
+              <Label>Requirements</Label>
+
+              <TextArea
+                placeholder="React.js, Next.js, Tailwind CSS"
+              />
+
+              <Description>
+                Separate skills with commas.
+              </Description>
+            </TextField>
+
+          </FieldGroup>
+
+          <Fieldset.Actions>
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="bg-[#00B96D] text-white"
+            >
+              {loading
+                ? "Publishing..."
+                : "Publish Job"}
+            </Button>
+
+            <Button
+              type="reset"
+              variant="secondary"
+            >
+              Reset
+            </Button>
+
+          </Fieldset.Actions>
+
+        </Fieldset>
+      </Form>
+    )}
+  </div>
+</section>
+
+
+);
 }

@@ -21,23 +21,48 @@ import { authClient } from "@/lib/auth-client";
 import MobileSidebar from "./MobileSidebar";
 // import MobileSidebar from "./MobileSidebar";
 
-const menuItems = [
-  { name: "Dashboard", icon: FiGrid, path: "/dashboard" },
-  { name: "Jobs", icon: FiBriefcase, path: "/dashboard/recruiter/jobs" },
-  { name: "Applications", icon: FiFileText, path: "/dashboard/applications" },
-  { name: "Companies", icon: FiLayers, path: "/dashboard/recruiter" },
-  { name: "Users", icon: FiUsers, path: "/dashboard/users" },
-  { name: "Categories", icon: FiFolder, path: "/dashboard/categories" },
-  { name: "Reports", icon: FiBarChart2, path: "/dashboard/reports" },
-  { name: "Settings", icon: FiSettings, path: "/dashboard/settings" },
-];
-
 export default function SideBar() {
   const pathname = usePathname();
 
   const { data: session } = authClient.useSession();
 
+  const recruiterNavLinks = [
+    { name: "Dashboard", icon: FiGrid, path: "/dashboard/seeker" },
+    { name: "Jobs", icon: FiBriefcase, path: "/dashboard/recruiter/jobs" },
+    { name: "Applications", icon: FiFileText, path: "/dashboard/applications" },
+    { name: "Companies", icon: FiLayers, path: "/dashboard/recruiter" },
+    { name: "Users", icon: FiUsers, path: "/dashboard/users" },
+    { name: "Categories", icon: FiFolder, path: "/dashboard/categories" },
+    { name: "Reports", icon: FiBarChart2, path: "/dashboard/reports" },
+    { name: "Settings", icon: FiSettings, path: "/dashboard/settings" },
+  ];
+
+  const seekerNavLinks = [
+    { name: "Dashboard", icon: FiGrid, path: "/dashboard/seeker" },
+    { name: "Applications", icon: FiFileText, path: "/dashboard/applications" },
+    { name: "Categories", icon: FiFolder, path: "/dashboard/categories" },
+    { name: "Reports", icon: FiBarChart2, path: "/dashboard/reports" },
+    { name: "Settings", icon: FiSettings, path: "/dashboard/settings" },
+  ];
+  const adminNavLinks = [
+    { name: "Dashboard", icon: FiGrid, path: "/dashboard/admin" },
+    { name: "Applications", icon: FiFileText, path: "/dashboard/applications" },
+    { name: "Categories", icon: FiFolder, path: "/dashboard/categories" },
+    { name: "Users", icon: FiUsers, path: "/dashboard/users" },
+    { name: "Companies", icon: FiLayers, path: "/dashboard/recruiter" },
+
+    { name: "Reports", icon: FiBarChart2, path: "/dashboard/reports" },
+    { name: "Settings", icon: FiSettings, path: "/dashboard/settings" },
+  ];
+  const navLinksByRole = {
+    recruiter: recruiterNavLinks,
+    seeker: seekerNavLinks,
+    admin: adminNavLinks,
+  };
+
   const user = session?.user;
+
+  const menuItems = navLinksByRole[user?.role || "seeker"];
 
   const [notificationCount] = useState(12);
 
@@ -52,7 +77,7 @@ export default function SideBar() {
 
       {/* Desktop Sidebar */}
       <aside
-      suppressHydrationWarning
+        suppressHydrationWarning
         className="
         hidden lg:flex
         w-72
@@ -76,9 +101,7 @@ export default function SideBar() {
       >
         <div>
           <div className="mb-8 px-2">
-            <h1 className="text-3xl font-bold text-green-500">
-              Dashboard
-            </h1>
+            <h1 className="text-3xl font-bold text-green-500">Dashboard</h1>
           </div>
 
           <nav className="flex flex-col gap-2">
@@ -87,8 +110,7 @@ export default function SideBar() {
 
               const isActive =
                 pathname === item.path ||
-                (item.path !== "/dashboard" &&
-                  pathname.startsWith(item.path));
+                (item.path !== "/dashboard" && pathname.startsWith(item.path));
 
               return (
                 <Link
@@ -126,39 +148,38 @@ export default function SideBar() {
               );
             })}
           </nav>
-        <div className="border-t border-default-200 pt-5 mt-2 w-full">
-          <div className="flex items-center justify-between bg-white dark:bg-zinc-900 p-3 rounded-2x w-full">
-            <div className="flex items-center gap-3 w-full">
-              {user?.image ? (
-                <img
-                  src={user.image}
-                  alt={user.name}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#00B96D] to-[#043330] flex items-center justify-center text-white font-bold">
-                  {user?.name?.charAt(0).toUpperCase() || "U"}
+          <div className="border-t border-default-200 pt-5 mt-2 w-full">
+            <div className="flex items-center justify-between bg-white dark:bg-zinc-900 p-3 rounded-2x w-full">
+              <div className="flex items-center gap-3 w-full">
+                {user?.image ? (
+                  <img
+                    src={user.image}
+                    alt={user.name}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#00B96D] to-[#043330] flex items-center justify-center text-white font-bold">
+                    {user?.name?.charAt(0).toUpperCase() || "U"}
+                  </div>
+                )}
+
+                <div>
+                  <h4 className="font-semibold text-sm truncate">
+                    {user?.name || "Guest User"}
+                  </h4>
+
+                  <p className="text-xs text-gray-500 truncate">
+                    {user?.email || "guest@example.com"}
+                  </p>
                 </div>
-              )}
-
-              <div>
-                <h4 className="font-semibold text-sm truncate">
-                  {user?.name || "Guest User"}
-                </h4>
-
-                <p className="text-xs text-gray-500 truncate">
-                  {user?.email || "guest@example.com"}
-                </p>
               </div>
-            </div>
 
-            <Link href="/dashboard/settings">
-              <FiSettings className="text-lg" />
-            </Link>
+              <Link href="/dashboard/settings">
+                <FiSettings className="text-lg" />
+              </Link>
+            </div>
           </div>
         </div>
-        </div>
-
       </aside>
     </>
   );

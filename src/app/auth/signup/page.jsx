@@ -23,7 +23,7 @@ export default function SignUpPage() {
   const redirectTo = searchParams.get('redirect') || '/'
 
   // স্টেট ম্যানেজমেন্ট
-  const [role, setRole] = useState("candidate");
+  const [role, setRole] = useState("seeker");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -124,7 +124,9 @@ const plan = role === "seeker" ? "seeker_free" : "recruiter_free";
         </div>
 
         {/* ROLE SELECTION */}
-        <div className="grid grid-cols-2 gap-4 mb-8">
+
+        <form onSubmit={handleSignUp} className="space-y-6">
+        <div className="grid grid-cols-2 gap-4 mb-8"  >
           <button
             type="button"
             onClick={() => setRole("seeker")}
@@ -150,8 +152,6 @@ const plan = role === "seeker" ? "seeker_free" : "recruiter_free";
             Recruiter
           </button>
         </div>
-
-        <form onSubmit={handleSignUp} className="space-y-6">
           {/* FULL NAME */}
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-semibold text-[#091E21]">Full Name</label>

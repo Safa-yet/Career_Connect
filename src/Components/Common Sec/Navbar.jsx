@@ -15,23 +15,6 @@ import Image from "next/image";
 import { authClient } from "@/lib/auth-client"; 
 import { useRouter } from "next/navigation";
 
-const navLinks = [
-  {
-    label: "Platform",
-    href: "/platform"
-  },
-  {
-    label: "Resources",
-    href: "/resources"
-  },
-  {
-    label: "Jobs",
-    href: "/jobs"
-  }
-
-  
-];
-
 
 
 export default function Navbar() {
@@ -40,12 +23,41 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false); 
   const [isLoggingOut, setIsLoggingOut] = useState(false); // লগআউট লোডার স্টেট
-
+  
   // Better-Auth সেশন হুক
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
-  console.log("user Check" ,user);
-
+  
+  const navLinks = [
+    {
+      label: "Platform",
+      href: "/platform"
+    },
+    {
+      label: "Resources",
+      href: "/resources"
+    },
+    {
+      label: "Jobs",
+      href: "/jobs"
+    }
+  
+    
+  ];
+  
+  const dashboardLinks = {
+    seeker : "/dashboard/seeker",
+    recruiter : "/dashboard/recruiter",
+    admin : "/dashboard/admin"
+  }
+  
+  
+  if(user){
+    navLinks.push({
+      label :"Dashboard",
+      href: dashboardLinks[user?.role || 'seeker'],
+    })
+  }
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -74,7 +86,6 @@ export default function Navbar() {
             indicator: <FiCheckCircle />,
           });
           router.push("/");
-          router.refresh();
         },
         onError: () => {
           setIsLoggingOut(false);
