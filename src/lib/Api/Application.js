@@ -1,6 +1,6 @@
 import Server from "next/dist/server/base-server"
-import { ServerFetch } from "../ReuseableFunc/Server"
+import { protectedFetch, ServerFetch } from "../ReuseableFunc/Server"
 
 export const getApplicationByApplicant = (applicantId)=>{
-    return ServerFetch(`/api/application?applicantId=${applicantId}`)
+    return protectedFetch(`/api/application?applicantId=${applicantId}`)
 }

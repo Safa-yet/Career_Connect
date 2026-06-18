@@ -1,266 +1,270 @@
+import Image from "next/image";
 import {
-  Card,
   Table,
-  Button,
+  Card,
 } from "@heroui/react";
 
 import {
-  FiEye,
+  FiBriefcase,
   FiCheckCircle,
-  FiSlash,
-  FiTrash2,
+  FiClock,
+  FiXCircle,
 } from "react-icons/fi";
 
 import { getCompanies } from "@/lib/Api/Company";
+import CompanyActions from "@/Components/Dashboard/Comapny/CompanyActions";
+// import CompanyActions from "@/Components/Admin/CompanyActions";
 
 const AdminCompanisReview = async () => {
   const companies = await getCompanies();
 
-  const companyList = Array.isArray(companies)
-    ? companies
-    : [];
+  const totalCompanies =
+    companies?.length || 0;
 
-  const totalCompanies = companyList.length;
+  const approvedCompanies =
+    companies?.filter(
+      (item) => item.status === "approved"
+    ).length || 0;
 
-  const activeCompanies = companyList.filter(
-    (item) => item.status === "active"
-  ).length;
+  const pendingCompanies =
+    companies?.filter(
+      (item) => item.status === "pending"
+    ).length || 0;
 
-  const pendingCompanies = companyList.filter(
-    (item) => item.status === "pending"
-  ).length;
-
-  const blockedCompanies = companyList.filter(
-    (item) => item.status === "blocked"
-  ).length;
+  const rejectedCompanies =
+    companies?.filter(
+      (item) => item.status === "rejected"
+    ).length || 0;
 
   return (
-    <div className="space-y-8 p-6">
+    <div className="p-6 space-y-8">
 
       {/* Header */}
 
       <div>
-        <h1 className="text-4xl font-bold text-[#091E21]">
-          Company Review
+        <h1 className="text-3xl font-bold text-[#091E21]">
+          Company Review Management
         </h1>
 
         <p className="text-gray-500 mt-2">
-          Review, approve and manage recruiter companies.
+          Review, approve, reject and manage companies.
         </p>
       </div>
 
       {/* Stats */}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
 
-        <Card>
-          <Card.Content className="p-6">
-            <p className="text-sm text-gray-500">
-              Total Companies
-            </p>
+        <Card className="p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-500 text-sm">
+                Total Companies
+              </p>
 
-            <h2 className="text-4xl font-bold text-[#091E21] mt-2">
-              {totalCompanies}
-            </h2>
-          </Card.Content>
+              <h2 className="text-3xl font-bold mt-2">
+                {totalCompanies}
+              </h2>
+            </div>
+
+            <FiBriefcase
+              size={28}
+              className="text-[#00B96D]"
+            />
+          </div>
         </Card>
 
-        <Card>
-          <Card.Content className="p-6">
-            <p className="text-sm text-gray-500">
-              Active Companies
-            </p>
+        <Card className="p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-500 text-sm">
+                Approved
+              </p>
 
-            <h2 className="text-4xl font-bold text-green-600 mt-2">
-              {activeCompanies}
-            </h2>
-          </Card.Content>
+              <h2 className="text-3xl font-bold mt-2 text-green-600">
+                {approvedCompanies}
+              </h2>
+            </div>
+
+            <FiCheckCircle
+              size={28}
+              className="text-green-600"
+            />
+          </div>
         </Card>
 
-        <Card>
-          <Card.Content className="p-6">
-            <p className="text-sm text-gray-500">
-              Pending Companies
-            </p>
+        <Card className="p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-500 text-sm">
+                Pending
+              </p>
 
-            <h2 className="text-4xl font-bold text-yellow-500 mt-2">
-              {pendingCompanies}
-            </h2>
-          </Card.Content>
+              <h2 className="text-3xl font-bold mt-2 text-yellow-500">
+                {pendingCompanies}
+              </h2>
+            </div>
+
+            <FiClock
+              size={28}
+              className="text-yellow-500"
+            />
+          </div>
         </Card>
 
-        <Card>
-          <Card.Content className="p-6">
-            <p className="text-sm text-gray-500">
-              Blocked Companies
-            </p>
+        <Card className="p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-500 text-sm">
+                Rejected
+              </p>
 
-            <h2 className="text-4xl font-bold text-red-500 mt-2">
-              {blockedCompanies}
-            </h2>
-          </Card.Content>
+              <h2 className="text-3xl font-bold mt-2 text-red-500">
+                {rejectedCompanies}
+              </h2>
+            </div>
+
+            <FiXCircle
+              size={28}
+              className="text-red-500"
+            />
+          </div>
         </Card>
 
       </div>
 
       {/* Table */}
 
-      <Card>
-        <Card.Content className="p-0">
+      <Card className="p-5">
 
-          <Table>
-            <Table.ScrollContainer>
+        <Table>
+          <Table.ScrollContainer>
 
-              <Table.Content
-                aria-label="Companies Table"
-                className="min-w-[1200px]"
-              >
+            <Table.Content
+              aria-label="Companies Table"
+              className="min-w-[1100px]"
+            >
+              <Table.Header>
 
-                <Table.Header>
+                <Table.Column>
+                  Company
+                </Table.Column>
 
-                  <Table.Column>
-                    Company
-                  </Table.Column>
+                <Table.Column>
+                  Industry
+                </Table.Column>
 
-                  <Table.Column>
-                    Recruiter
-                  </Table.Column>
+                <Table.Column>
+                  Location
+                </Table.Column>
+                <Table.Column>
+                Available jobs
+                </Table.Column>
 
-                  <Table.Column>
-                    Location
-                  </Table.Column>
+                <Table.Column>
+                  Employees
+                </Table.Column>
 
-                  <Table.Column>
-                    Website
-                  </Table.Column>
+                <Table.Column>
+                  Recruiter
+                </Table.Column>
 
-                  <Table.Column>
-                    Employees
-                  </Table.Column>
+                <Table.Column>
+                  Status
+                </Table.Column>
 
-                  <Table.Column>
-                    Status
-                  </Table.Column>
+                <Table.Column>
+                  Actions
+                </Table.Column>
 
-                  <Table.Column>
-                    Actions
-                  </Table.Column>
+              </Table.Header>
 
-                </Table.Header>
+              <Table.Body>
 
-                <Table.Body>
+                {companies?.map((company) => (
+                  <Table.Row key={company._id}>
 
-                  {companyList.map((company) => (
-                    <Table.Row
-                      key={company._id}
-                    >
-                      <Table.Cell>
+                    <Table.Cell>
+                      <div className="flex items-center gap-3">
 
-                        <div className="flex items-center gap-3">
+                        <Image
+                          src={
+                            company.companyLogo ||
+                            "/placeholder.png"
+                          }
+                          alt={
+                            company.companyTitle
+                          }
+                          width={50}
+                          height={50}
+                          className="rounded-xl border"
+                        />
 
-                          <img
-                            src={company.companyLogo}
-                            alt={company.companyTitle}
-                            className="w-12 h-12 rounded-xl object-cover border"
-                          />
+                        <div>
+                          <h3 className="font-semibold">
+                            {company.companyTitle}
+                          </h3>
 
-                          <div>
-                            <h4 className="font-semibold text-[#091E21]">
-                              {company.companyTitle}
-                            </h4>
-
-                            <p className="text-xs text-gray-500">
-                              {company.industry}
-                            </p>
-                          </div>
-
+                          <p className="text-sm text-gray-500">
+                            {company.website}
+                          </p>
                         </div>
 
-                      </Table.Cell>
+                      </div>
+                    </Table.Cell>
 
-                      <Table.Cell>
-                        {company.recruiterName}
-                      </Table.Cell>
+                    <Table.Cell>
+                      {company.industry}
+                    </Table.Cell>
 
-                      <Table.Cell>
-                        {company.location}
-                      </Table.Cell>
+                    <Table.Cell>
+                      {company.location}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {company.jobCount}
+                    </Table.Cell>
 
-                      <Table.Cell>
-                        {company.website}
-                      </Table.Cell>
+                    <Table.Cell>
+                      {company.employeeCount}
+                    </Table.Cell>
 
-                      <Table.Cell>
-                        {company.employeeCount}
-                      </Table.Cell>
+                    <Table.Cell>
+                      {company.recruiterName}
+                    </Table.Cell>
 
-                      <Table.Cell>
+                    <Table.Cell>
 
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                            company.status === "active"
-                              ? "bg-green-100 text-green-700"
-                              : company.status === "pending"
-                              ? "bg-yellow-100 text-yellow-700"
-                              : "bg-red-100 text-red-700"
-                          }`}
-                        >
-                          {company.status}
-                        </span>
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          company.status ===
+                          "approved"
+                            ? "bg-green-100 text-green-700"
+                            : company.status ===
+                              "rejected"
+                            ? "bg-red-100 text-red-700"
+                            : "bg-yellow-100 text-yellow-700"
+                        }`}
+                      >
+                        {company.status}
+                      </span>
 
-                      </Table.Cell>
+                    </Table.Cell>
 
-                      <Table.Cell>
+                    <Table.Cell>
+                      <CompanyActions
+                        company={company}
+                      />
+                    </Table.Cell>
 
-                        <div className="flex items-center gap-2">
+                  </Table.Row>
+                ))}
 
-                          <Button
-                            size="sm"
-                            variant="outline"
-                          >
-                            <FiEye />
-                            View
-                          </Button>
+              </Table.Body>
+            </Table.Content>
 
-                          <Button
-                            size="sm"
-                            className="bg-[#00B96D] text-white"
-                          >
-                            <FiCheckCircle />
-                            Approve
-                          </Button>
+          </Table.ScrollContainer>
+        </Table>
 
-                          <Button
-                            size="sm"
-                            className="bg-orange-500 text-white"
-                          >
-                            <FiSlash />
-                            Block
-                          </Button>
-
-                          <Button
-                            size="sm"
-                            variant="danger"
-                          >
-                            <FiTrash2 />
-                            Delete
-                          </Button>
-
-                        </div>
-
-                      </Table.Cell>
-
-                    </Table.Row>
-                  ))}
-
-                </Table.Body>
-
-              </Table.Content>
-
-            </Table.ScrollContainer>
-          </Table>
-
-        </Card.Content>
       </Card>
 
     </div>
