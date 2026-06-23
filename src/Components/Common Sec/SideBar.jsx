@@ -29,7 +29,7 @@ export default function SideBar() {
   const recruiterNavLinks = [
     { name: "Dashboard", icon: FiGrid, path: "/dashboard/seeker" },
     { name: "Jobs", icon: FiBriefcase, path: "/dashboard/recruiter/jobs" },
-    { name: "Applications", icon: FiFileText, path: "/dashboard/applications" },
+    { name: "Applications", icon: FiFileText, path: "/dashboard/recruiter/applications" },
     { name: "Companies", icon: FiLayers, path: "/dashboard/recruiter" },
     { name: "Users", icon: FiUsers, path: "/dashboard/users" },
     { name: "Categories", icon: FiFolder, path: "/dashboard/categories" },
@@ -39,14 +39,14 @@ export default function SideBar() {
 
   const seekerNavLinks = [
     { name: "Dashboard", icon: FiGrid, path: "/dashboard/seeker" },
-    { name: "Applications", icon: FiFileText, path: "/dashboard/applications" },
+    { name: "Applications", icon: FiFileText, path: "/dashboard/seeker/applications" },
     { name: "Categories", icon: FiFolder, path: "/dashboard/categories" },
     { name: "Reports", icon: FiBarChart2, path: "/dashboard/reports" },
     { name: "Settings", icon: FiSettings, path: "/dashboard/settings" },
   ];
   const adminNavLinks = [
     { name: "Dashboard", icon: FiGrid, path: "/dashboard/admin" },
-    { name: "Applications", icon: FiFileText, path: "/dashboard/applications" },
+    { name: "Applications", icon: FiFileText, path: "/dashboard/admin/applications" },
     { name: "Categories", icon: FiFolder, path: "/dashboard/categories" },
     { name: "Users", icon: FiUsers, path: "/dashboard/users" },
     { name: "Companies", icon: FiLayers, path: "/dashboard/recruiter" },

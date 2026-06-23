@@ -89,7 +89,7 @@ export default function ApplyJob({ job, user }) {
         status: "pending",
       };
 
-      console.log("Application",applicationData);
+      // console.log("Application",applicationData);
 
       await submitApplication(applicationData)
 

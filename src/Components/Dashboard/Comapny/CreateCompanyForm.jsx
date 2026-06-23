@@ -56,7 +56,7 @@ const uploadToImageBB = async (imageFile) => {
 
   const result = await response.json();
 
-  console.log("ImageBB Response:", result);
+  // console.log("ImageBB Response:", result);
 
   return result?.data?.display_url || result?.data?.url || "";
 };
@@ -87,7 +87,7 @@ const handleSubmit = async (e) => {
       status: "pending",
     };
 
-    console.log("Final Company Data:", companyData);
+    // console.log("Final Company Data:", companyData);
 
      createCompany(companyData);
 

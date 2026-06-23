@@ -37,12 +37,12 @@ export default async function Success({
   if (status === "complete") {
     const subsIndfo ={
       email : customerEmail,
-      planId : metadata.planId
+      planId : metadata.planId,
     }
 
     const result = await createSubsction(subsIndfo)
 
-    console.log('subscription', result);
+    // console.log('subscription', result);
     return (
       <SuccessContent
         customerEmail={customerEmail}
