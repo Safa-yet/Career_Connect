@@ -148,7 +148,7 @@ export default function Footer() {
         <div className="border-t border-divider py-6 flex flex-col md:flex-row items-center justify-between gap-4">
 
           <p className="text-sm text-default-500">
-            © 2026 JobFine. All rights reserved.
+            © 2026 CarrerConnect. All rights reserved.
           </p>
 
           <div className="flex items-center gap-2 text-default-500">
